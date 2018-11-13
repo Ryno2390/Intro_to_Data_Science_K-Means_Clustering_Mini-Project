@@ -71,6 +71,7 @@ barplot(table(nc$Best.n[1,]),
 # into a variable fit.km
 
 fit.km <- kmeans(df, 3)
+str(fit.km)
 
 # Now we want to evaluate how well this clustering does.
 
@@ -89,5 +90,3 @@ table(wine$Type, fit.km$cluster)
 # Exercise 6:
 # * Visualize these clusters using  function clusplot() from the cluster library
 # * Would you consider this a good clustering?
-
-clusplot()
