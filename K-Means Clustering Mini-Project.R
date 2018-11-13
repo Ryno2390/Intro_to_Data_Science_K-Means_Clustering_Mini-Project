@@ -70,7 +70,7 @@ barplot(table(nc$Best.n[1,]),
 # using this number of clusters. Output the result of calling kmeans()
 # into a variable fit.km
 
-fit.km <- kmeans(df, centers = 3)
+fit.km <- kmeans(df, 3)
 
 # Now we want to evaluate how well this clustering does.
 
@@ -78,14 +78,13 @@ fit.km <- kmeans(df, centers = 3)
 # compares to the actual wine types in wine$Type. Would you consider this a good
 # clustering?
 
-table(fit.km$cluster, wine$Type)
+table(wine$Type, fit.km$cluster)
 
-# It looks like the original wine table allocates about 33% of the wines into Type 1, whereas the model 
-# allocates about 35%; the original wine table allocates about 40% of the wines to Type 2, whereas the model
-# allocates less than 30%; and, finally, the original wine table allocates about 27% to Type 3, whereas the
-# model allocates about 37% to Type 3. In sum, it looks like the model was relatively accurate at 
-# determining Type 1 wines but underallocated Type 2 wines and underallocated Type 3 wines. But the 
-# variances were not very far of the mark, indicating that the clustering was pretty accurate.
+# It looks like the model was highly accurate. When we look at the cross-table of wine$Type vs.
+# fit.km$cluster we see that the overall accuracy is strong, with the only disagreement between the two seen in 
+# in regards to Type 2 wines, where there was some disagreement between the model and the original wine 
+# table.
+
 
 # Exercise 6:
 # * Visualize these clusters using  function clusplot() from the cluster library
