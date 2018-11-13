@@ -4,7 +4,11 @@
 
 # Exercise 0: Install these packages if you don't have them already
 
-# install.packages(c("cluster", "rattle.data","NbClust"))
+install.packages(c("cluster", "rattle.data","NbClust", "dplyr"))
+library(cluster)
+library(rattle.data)
+library(NbClust)
+library(dplyr)
 
 # Now load the data and look at the first few rows
 data(wine, package="rattle.data")
@@ -12,7 +16,9 @@ head(wine)
 
 # Exercise 1: Remove the first column from the data and scale
 # it using the scale() function
-
+wine <- wine %>% select(-c(Type))
+head(wine)
+scale(wine)
 
 # Now we'd like to cluster the data using K-Means. 
 # How do we decide how many clusters to use if you don't know that already?
