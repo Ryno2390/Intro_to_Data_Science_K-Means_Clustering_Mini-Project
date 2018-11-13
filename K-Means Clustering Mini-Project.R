@@ -11,14 +11,14 @@ library(NbClust)
 library(dplyr)
 
 # Now load the data and look at the first few rows
+
 data(wine, package="rattle.data")
 head(wine)
 
 # Exercise 1: Remove the first column from the data and scale
 # it using the scale() function
-wine <- wine %>% select(-c(Type))
-head(wine)
-scale(wine)
+
+df <- scale(wine[-1])
 
 # Now we'd like to cluster the data using K-Means. 
 # How do we decide how many clusters to use if you don't know that already?
@@ -42,7 +42,14 @@ wssplot(df)
 
 # Exercise 2:
 #   * How many clusters does this method suggest?
+#     This method appears to suggest 3 clusters, as this where the bend in the graph reaches its apex.
+
 #   * Why does this method work? What's the intuition behind it?
+#     This method attempst to track the reduction in the within group sum of squares and where the curve
+#     bends signifies the point of greatest reduction relative to the number of clusters. The goal is to
+#     reduce the withing group sum of squares with the least number of clusters - otherwise the clusters'
+#     predictive utility is undermined.
+
 #   * Look at the code for wssplot() and figure out how it works
 
 # Method 2: Use the NbClust library, which runs many experiments
@@ -55,15 +62,15 @@ barplot(table(nc$Best.n[1,]),
 	          xlab="Numer of Clusters", ylab="Number of Criteria",
 		            main="Number of Clusters Chosen by 26 Criteria")
 
-
 # Exercise 3: How many clusters does this method suggest?
-
+# Like with the wssplot function this method also suggest 3, with 14 criteria landing on 3, by far the
+# largest criteria figure
 
 # Exercise 4: Once you've picked the number of clusters, run k-means 
 # using this number of clusters. Output the result of calling kmeans()
 # into a variable fit.km
 
-# fit.km <- kmeans( ... )
+fit.km <- kmeans(df, centers = 3)
 
 # Now we want to evaluate how well this clustering does.
 
@@ -71,9 +78,17 @@ barplot(table(nc$Best.n[1,]),
 # compares to the actual wine types in wine$Type. Would you consider this a good
 # clustering?
 
+table(fit.km$cluster, wine$Type)
+
+# It looks like the original wine table allocates about 33% of the wines into Type 1, whereas the model 
+# allocates about 35%; the original wine table allocates about 40% of the wines to Type 2, whereas the model
+# allocates less than 30%; and, finally, the original wine table allocates about 27% to Type 3, whereas the
+# model allocates about 37% to Type 3. In sum, it looks like the model was relatively accurate at 
+# determining Type 1 wines but underallocated Type 2 wines and underallocated Type 3 wines. But the 
+# variances were not very far of the mark, indicating that the clustering was pretty accurate.
 
 # Exercise 6:
 # * Visualize these clusters using  function clusplot() from the cluster library
 # * Would you consider this a good clustering?
 
-#clusplot( ... )
+clusplot()
