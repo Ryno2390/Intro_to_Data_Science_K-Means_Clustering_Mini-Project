@@ -90,3 +90,4 @@ table(wine$Type, fit.km$cluster)
 # Exercise 6:
 # * Visualize these clusters using  function clusplot() from the cluster library
 # * Would you consider this a good clustering?
+clusplot(wine, fit.km$cluster)
